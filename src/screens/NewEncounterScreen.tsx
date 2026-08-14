@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   View,
+  ScrollView,
   Text,
   TextInput,
   Pressable,
@@ -10,10 +11,12 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import type { RootScreenProps } from "../navigation/RootNavigator";
 import { db } from "../db/client";
-import { createEncounter } from "../db/repository";
+import { createEncounter, getNameCard } from "../db/repository";
 import { getCurrentPlace } from "../encounters/location";
+import { deriveCardData, type CardData } from "../cards/cardData";
+import { ShareCardButton } from "../cards/ShareCardButton";
 
-type Step = "consent" | "form";
+type Step = "consent" | "form" | "share";
 
 export function NewEncounterScreen({
   navigation,
@@ -25,6 +28,7 @@ export function NewEncounterScreen({
   const [place, setPlace] = useState("");
   const [timestamp, setTimestamp] = useState(new Date());
   const [saving, setSaving] = useState(false);
+  const [savedCard, setSavedCard] = useState<CardData | null>(null);
 
   useEffect(() => {
     if (step !== "form") return;
@@ -62,15 +66,19 @@ export function NewEncounterScreen({
 
   const handleSave = async () => {
     setSaving(true);
-    await createEncounter(db, {
-      personName,
-      place,
-      timestamp,
-      consent,
-      selfieUri: consent ? selfieUri : null,
-    });
+    const [encounter, nameCard] = await Promise.all([
+      createEncounter(db, {
+        personName,
+        place,
+        timestamp,
+        consent,
+        selfieUri: consent ? selfieUri : null,
+      }),
+      getNameCard(db),
+    ]);
     setSaving(false);
-    navigation.navigate("Home");
+    setSavedCard(deriveCardData(encounter, nameCard));
+    setStep("share");
   };
 
   if (step === "consent") {
@@ -89,6 +97,21 @@ export function NewEncounterScreen({
           </Pressable>
         </View>
       </View>
+    );
+  }
+
+  if (step === "share" && savedCard) {
+    return (
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.title}>Encounter saved</Text>
+        <ShareCardButton card={savedCard} />
+        <Pressable
+          style={styles.saveButton}
+          onPress={() => navigation.navigate("Home")}
+        >
+          <Text style={styles.saveButtonText}>Done</Text>
+        </Pressable>
+      </ScrollView>
     );
   }
 

@@ -1,20 +1,23 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import {
   View,
   Text,
   FlatList,
   Pressable,
   Image,
+  Alert,
   StyleSheet,
 } from "react-native";
+import { Swipeable } from "react-native-gesture-handler";
 import { useFocusEffect } from "@react-navigation/native";
 import type { RootScreenProps } from "../navigation/RootNavigator";
 import { db } from "../db/client";
-import { listEncounters } from "../db/repository";
+import { listEncounters, deleteEncounter } from "../db/repository";
 import type { Encounter } from "../db/schema";
 
 export function HomeScreen({ navigation }: RootScreenProps<"Home">) {
   const [encounters, setEncounters] = useState<Encounter[]>([]);
+  const swipeableRefs = useRef(new Map<number, Swipeable>());
 
   useFocusEffect(
     useCallback(() => {
@@ -28,6 +31,25 @@ export function HomeScreen({ navigation }: RootScreenProps<"Home">) {
     }, [])
   );
 
+  const handleDelete = (id: number) => {
+    Alert.alert("Delete encounter?", "This can't be undone.", [
+      {
+        text: "Cancel",
+        style: "cancel",
+        onPress: () => swipeableRefs.current.get(id)?.close(),
+      },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: async () => {
+          await deleteEncounter(db, id);
+          swipeableRefs.current.delete(id);
+          setEncounters((prev) => prev.filter((item) => item.id !== id));
+        },
+      },
+    ]);
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -39,24 +61,39 @@ export function HomeScreen({ navigation }: RootScreenProps<"Home">) {
           </Text>
         }
         renderItem={({ item }) => (
-          <Pressable
-            style={styles.row}
-            onPress={() =>
-              navigation.navigate("EncounterDetail", { encounterId: item.id })
-            }
-          >
-            {item.selfieUri ? (
-              <Image source={{ uri: item.selfieUri }} style={styles.thumb} />
-            ) : (
-              <View style={styles.thumbPlaceholder} />
+          <Swipeable
+            ref={(ref) => {
+              if (ref) swipeableRefs.current.set(item.id, ref);
+              else swipeableRefs.current.delete(item.id);
+            }}
+            renderRightActions={() => (
+              <Pressable
+                style={styles.deleteAction}
+                onPress={() => handleDelete(item.id)}
+              >
+                <Text style={styles.deleteActionText}>Delete</Text>
+              </Pressable>
             )}
-            <View style={styles.rowText}>
-              <Text style={styles.rowName}>{item.personName}</Text>
-              <Text style={styles.rowMeta}>
-                {item.place} · {item.timestamp.toLocaleDateString()}
-              </Text>
-            </View>
-          </Pressable>
+          >
+            <Pressable
+              style={styles.row}
+              onPress={() =>
+                navigation.navigate("EncounterDetail", { encounterId: item.id })
+              }
+            >
+              {item.selfieUri ? (
+                <Image source={{ uri: item.selfieUri }} style={styles.thumb} />
+              ) : (
+                <View style={styles.thumbPlaceholder} />
+              )}
+              <View style={styles.rowText}>
+                <Text style={styles.rowName}>{item.personName}</Text>
+                <Text style={styles.rowMeta}>
+                  {item.place} · {item.timestamp.toLocaleDateString()}
+                </Text>
+              </View>
+            </Pressable>
+          </Swipeable>
         )}
       />
 
@@ -84,6 +121,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 12,
     paddingVertical: 10,
+    backgroundColor: "#fff",
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: "#ddd",
   },
@@ -97,6 +135,13 @@ const styles = StyleSheet.create({
   rowText: { flex: 1 },
   rowName: { fontSize: 16, fontWeight: "500" },
   rowMeta: { fontSize: 13, color: "#777" },
+  deleteAction: {
+    backgroundColor: "#c0392b",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 88,
+  },
+  deleteActionText: { color: "#fff", fontWeight: "600" },
   button: {
     backgroundColor: "#111",
     borderRadius: 8,

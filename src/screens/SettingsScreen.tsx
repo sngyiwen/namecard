@@ -17,6 +17,7 @@ import { QR_TARGET_URL, SUTD_LOGO } from "../nameCard/constants";
 const EMPTY_FIELDS: NameCardFields = {
   name: "",
   role: "",
+  company: "",
   tagline: "",
   email: "",
   phone: "",
@@ -27,6 +28,7 @@ const EMPTY_FIELDS: NameCardFields = {
 const FIELD_LABELS: { key: keyof NameCardFields; label: string }[] = [
   { key: "name", label: "Name" },
   { key: "role", label: "Role" },
+  { key: "company", label: "Company" },
   { key: "tagline", label: "Tagline" },
   { key: "email", label: "Email" },
   { key: "phone", label: "Phone" },

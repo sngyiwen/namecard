@@ -6,6 +6,14 @@ import { CREATE_TABLES_SQL } from "./createTables";
 const sqliteDb = openDatabaseSync("namecard.db");
 sqliteDb.execSync(CREATE_TABLES_SQL);
 
+// Lightweight migration for installs from before the `company` field existed.
+// CREATE TABLE IF NOT EXISTS above won't add columns to an already-existing table.
+try {
+  sqliteDb.execSync("ALTER TABLE name_card ADD COLUMN company TEXT NOT NULL DEFAULT ''");
+} catch {
+  // Column already exists — nothing to do.
+}
+
 export const db = drizzle(sqliteDb, { schema });
 
 // The NameCard row is a singleton; seed it once so repository reads never hit an empty table.

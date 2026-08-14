@@ -4,6 +4,7 @@ export const nameCard = sqliteTable("name_card", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   name: text("name").notNull().default(""),
   role: text("role").notNull().default(""),
+  company: text("company").notNull().default(""),
   tagline: text("tagline").notNull().default(""),
   email: text("email").notNull().default(""),
   phone: text("phone").notNull().default(""),

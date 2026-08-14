@@ -20,7 +20,8 @@ describe("name_card repository", () => {
     const db = createTestDb();
     await saveNameCard(db, {
       name: "Jack Sng",
-      role: "Student, 42 Singapore SUTD",
+      role: "Student",
+      company: "42 Singapore, SUTD",
       tagline: "Nice to meet you!",
       email: "jack_sng@sutd.edu.sg",
       phone: "+65 9645 9651",

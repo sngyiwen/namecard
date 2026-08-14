@@ -15,6 +15,9 @@ export function CardView({ card }: { card: CardData }) {
         <View style={styles.headerText}>
           <Text style={styles.name}>{card.nameCard.name}</Text>
           <Text style={styles.role}>{card.nameCard.role}</Text>
+          {card.nameCard.company.length > 0 && (
+            <Text style={styles.company}>{card.nameCard.company}</Text>
+          )}
         </View>
       </View>
 
@@ -56,6 +59,7 @@ const styles = StyleSheet.create({
   headerText: { flex: 1 },
   name: { fontSize: 18, fontWeight: "700" },
   role: { fontSize: 13, color: "#555" },
+  company: { fontSize: 13, color: "#555" },
   tagline: { fontSize: 14, fontStyle: "italic", color: "#333" },
   encounterMeta: { fontSize: 12, color: "#777" },
   contactBlock: { gap: 2, marginTop: 4 },

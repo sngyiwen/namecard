@@ -1,25 +1,64 @@
 import { useEffect, useState } from "react";
-import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  Image,
+  StyleSheet,
+} from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import type { RootScreenProps } from "../navigation/RootNavigator";
 import { db } from "../db/client";
 import { createEncounter } from "../db/repository";
 import { getCurrentPlace } from "../encounters/location";
 
-type Step = "consent" | "noPhotoForm" | "photoComingSoon";
+type Step = "consent" | "form";
 
 export function NewEncounterScreen({
   navigation,
 }: RootScreenProps<"NewEncounter">) {
   const [step, setStep] = useState<Step>("consent");
+  const [consent, setConsent] = useState(false);
+  const [selfieUri, setSelfieUri] = useState<string | null>(null);
   const [personName, setPersonName] = useState("");
   const [place, setPlace] = useState("");
   const [timestamp, setTimestamp] = useState(new Date());
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    if (step !== "noPhotoForm") return;
+    if (step !== "form") return;
     getCurrentPlace().then(setPlace);
   }, [step]);
+
+  const handleDecline = () => {
+    setConsent(false);
+    setSelfieUri(null);
+    setStep("form");
+  };
+
+  const handleConsent = async () => {
+    const permission = await ImagePicker.requestCameraPermissionsAsync();
+    if (!permission.granted) {
+      // No permission — treat like a cancel, stay on the consent prompt.
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync({
+      cameraType: ImagePicker.CameraType.front,
+      quality: 0.7,
+    });
+
+    if (result.canceled || result.assets.length === 0) {
+      // Canceling the camera aborts back to the consent prompt rather than
+      // saving a partial Encounter.
+      return;
+    }
+
+    setConsent(true);
+    setSelfieUri(result.assets[0].uri);
+    setStep("form");
+  };
 
   const handleSave = async () => {
     setSaving(true);
@@ -27,8 +66,8 @@ export function NewEncounterScreen({
       personName,
       place,
       timestamp,
-      consent: false,
-      selfieUri: null,
+      consent,
+      selfieUri: consent ? selfieUri : null,
     });
     setSaving(false);
     navigation.navigate("Home");
@@ -42,16 +81,10 @@ export function NewEncounterScreen({
           Did they agree to a photo together?
         </Text>
         <View style={styles.consentRow}>
-          <Pressable
-            style={styles.consentButton}
-            onPress={() => setStep("photoComingSoon")}
-          >
+          <Pressable style={styles.consentButton} onPress={handleConsent}>
             <Text style={styles.consentButtonText}>Yes</Text>
           </Pressable>
-          <Pressable
-            style={styles.consentButton}
-            onPress={() => setStep("noPhotoForm")}
-          >
+          <Pressable style={styles.consentButton} onPress={handleDecline}>
             <Text style={styles.consentButtonText}>No</Text>
           </Pressable>
         </View>
@@ -59,24 +92,13 @@ export function NewEncounterScreen({
     );
   }
 
-  if (step === "photoComingSoon") {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>New Encounter</Text>
-        <Text>Selfie capture is coming in the next ticket (#4).</Text>
-        <Pressable
-          style={styles.linkButton}
-          onPress={() => setStep("consent")}
-        >
-          <Text>Back</Text>
-        </Pressable>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>New Encounter</Text>
+
+      {consent && selfieUri && (
+        <Image source={{ uri: selfieUri }} style={styles.selfiePreview} />
+      )}
 
       <View style={styles.field}>
         <Text style={styles.label}>Person's name</Text>
@@ -133,7 +155,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   consentButtonText: { color: "#fff", fontWeight: "600" },
-  linkButton: { paddingVertical: 8 },
+  selfiePreview: {
+    width: "100%",
+    height: 200,
+    borderRadius: 8,
+    backgroundColor: "#eee",
+  },
   field: { gap: 4 },
   label: { fontSize: 13, color: "#555" },
   input: {

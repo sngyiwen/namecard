@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
-import ViewShot, { captureRef, type ViewShotRef } from "react-native-view-shot";
+import ViewShot, { captureRef } from "react-native-view-shot";
 import * as Sharing from "expo-sharing";
 import { CardView } from "./CardView";
 import type { CardData } from "./cardData";
@@ -8,7 +8,7 @@ import type { CardData } from "./cardData";
 // Renders the Card off-screen-ish (but still mounted, since view-shot needs a
 // laid-out view to capture) and hands the captured PNG to the OS share sheet.
 export function ShareCardButton({ card }: { card: CardData }) {
-  const viewShotRef = useRef<ViewShotRef>(null);
+  const viewShotRef = useRef<ViewShot>(null);
   const [sharing, setSharing] = useState(false);
 
   const handleShare = async () => {

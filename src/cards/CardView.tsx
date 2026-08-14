@@ -1,6 +1,6 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import QRCode from "react-native-qrcode-svg";
-import { FORTY_TWO_LOGO, SUTD_LOGO } from "../nameCard/constants";
+import { FORTY_TWO_LOGO } from "../nameCard/constants";
 import type { CardData } from "./cardData";
 
 export function CardView({ card }: { card: CardData }) {
@@ -14,18 +14,19 @@ export function CardView({ card }: { card: CardData }) {
         <Text style={styles.greeting}>Hello 👋🏼 {card.personName}</Text>
       )}
 
-      <View style={styles.header}>
-        <View style={styles.logoRow}>
-          <Image source={FORTY_TWO_LOGO} style={styles.logo} resizeMode="contain" />
-          <Image source={SUTD_LOGO} style={styles.logo} resizeMode="contain" />
-        </View>
-        <View style={styles.headerText}>
+      <View style={styles.headerText}>
+        <View style={styles.nameRow}>
           <Text style={styles.name}>{card.nameCard.name}</Text>
-          <Text style={styles.role}>{card.nameCard.role}</Text>
-          {card.nameCard.company.length > 0 && (
-            <Text style={styles.company}>{card.nameCard.company}</Text>
-          )}
+          <Image
+            source={FORTY_TWO_LOGO}
+            style={styles.logo}
+            resizeMode="contain"
+          />
         </View>
+        <Text style={styles.role}>{card.nameCard.role}</Text>
+        {card.nameCard.company.length > 0 && (
+          <Text style={styles.company}>{card.nameCard.company}</Text>
+        )}
       </View>
 
       <Text style={styles.tagline}>{card.nameCard.tagline}</Text>
@@ -65,17 +66,22 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   selfie: { width: "100%", height: 180, borderRadius: 12 },
-  header: { flexDirection: "row", alignItems: "center", gap: 10 },
-  logoRow: { flexDirection: "row", gap: 6 },
+  headerText: { alignItems: "flex-start" },
+  nameRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    gap: 10,
+  },
   logo: { width: 32, height: 32 },
-  headerText: { flex: 1 },
-  name: { fontSize: 18, fontWeight: "700" },
-  role: { fontSize: 13, color: "#555" },
-  company: { fontSize: 13, color: "#555" },
-  tagline: { fontSize: 14, fontStyle: "italic", color: "#333" },
-  greeting: { fontSize: 15, fontWeight: "600", color: "#111" },
-  encounterMeta: { fontSize: 12, color: "#777" },
-  contactBlock: { gap: 2, marginTop: 4 },
-  contactLine: { fontSize: 12, color: "#333" },
+  name: { fontSize: 18, fontWeight: "700", textAlign: "left" },
+  role: { fontSize: 13, color: "#555", textAlign: "left" },
+  company: { fontSize: 13, color: "#555", textAlign: "left" },
+  tagline: { fontSize: 14, fontStyle: "italic", color: "#333", textAlign: "left" },
+  greeting: { fontSize: 15, fontWeight: "600", color: "#111", textAlign: "left" },
+  encounterMeta: { fontSize: 12, color: "#777", textAlign: "left" },
+  contactBlock: { gap: 2, marginTop: 4, alignItems: "flex-start" },
+  contactLine: { fontSize: 12, color: "#333", textAlign: "left" },
   qrRow: { alignItems: "flex-start", marginTop: 8 },
 });

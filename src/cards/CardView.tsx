@@ -15,9 +15,7 @@ export function CardView({ card }: { card: CardData }) {
       )}
 
       <View style={styles.headerText}>
-        <Text style={styles.role}>
-          {"My Name is\n"}
-        </Text>
+        <Text style={styles.myNameIs}>{"My Name is"}</Text>
         <Text style={styles.name}>{card.nameCard.name}</Text>
         <Text style={styles.role}>{card.nameCard.role}</Text>
         {card.nameCard.company.length > 0 && (
@@ -76,6 +74,7 @@ const styles = StyleSheet.create({
   logo: { width: 80, height: 30, marginTop: 6 },
   name: { fontSize: 18, fontWeight: "700", textAlign: "left" },
   role: { fontSize: 13, color: "#555", textAlign: "left" },
+  myNameIs: { fontSize: 13, color: "#555", textAlign: "left", marginBottom: -4 },
   company: { fontSize: 13, color: "#555", textAlign: "left" },
   tagline: { fontSize: 14, fontStyle: "italic", color: "#333", textAlign: "left" },
   greeting: { fontSize: 40, color: "#777", textAlign: "left" },

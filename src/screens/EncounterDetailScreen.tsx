@@ -149,7 +149,10 @@ export function EncounterDetailScreen({
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView
+      style={styles.scrollView}
+      contentContainerStyle={styles.scrollContent}
+    >
       {encounter.selfieUri ? (
         <Image source={{ uri: encounter.selfieUri }} style={styles.selfie} />
       ) : (
@@ -180,6 +183,8 @@ export function EncounterDetailScreen({
         </Pressable>
       </View>
 
+      <View style={styles.divider} />
+
       {nameCard && (
         <View style={styles.shareSection}>
           <ShareCardButton card={deriveCardData(encounter, nameCard)} />
@@ -191,6 +196,13 @@ export function EncounterDetailScreen({
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16, gap: 8 },
+  scrollView: { flex: 1 },
+  scrollContent: { padding: 16, gap: 8 },
+  divider: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: "#ddd",
+    marginTop: 16,
+  },
   title: { fontSize: 20, fontWeight: "600" },
   selfie: { width: "100%", height: 240, borderRadius: 8 },
   selfiePlaceholder: {

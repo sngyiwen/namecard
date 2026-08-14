@@ -18,9 +18,6 @@ export function CardView({ card }: { card: CardData }) {
         <Text style={styles.myNameIs}>{"My Name is"}</Text>
         <Text style={styles.name}>{card.nameCard.name}</Text>
         <Text style={styles.role}>{card.nameCard.role}</Text>
-        {card.nameCard.company.length > 0 && (
-          <Text style={styles.company}>{card.nameCard.company}</Text>
-        )}
         <Image
           source={FORTY_TWO_LOGO}
           style={styles.logo}
@@ -71,8 +68,8 @@ const styles = StyleSheet.create({
   },
   selfie: { width: "100%", height: 180, borderRadius: 12 },
   headerText: { alignItems: "flex-start", gap: 4 },
-  logo: { width: 80, height: 30, marginTop: 6 },
-  name: { fontSize: 18, fontWeight: "700", textAlign: "left" },
+  logo: { width: 140, height: 52, marginTop: 6 },
+  name: { fontSize: 25, fontWeight: "700", textAlign: "left" },
   role: { fontSize: 13, color: "#555", textAlign: "left" },
   myNameIs: { fontSize: 13, color: "#555", textAlign: "left", marginBottom: -4 },
   company: { fontSize: 13, color: "#555", textAlign: "left" },

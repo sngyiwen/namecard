@@ -11,7 +11,12 @@ export function CardView({ card }: { card: CardData }) {
       )}
 
       {card.variant === "personalized" && (
-        <Text style={styles.greeting}>Hello 👋🏼 {card.personName}</Text>
+        <Text style={styles.encounterMeta}>
+          {"Hello "}
+          {card.personName}
+          {" 👋🏼\n"}
+          {"My Name is\n"}
+        </Text>
       )}
 
       <View style={styles.headerText}>
@@ -79,7 +84,6 @@ const styles = StyleSheet.create({
   role: { fontSize: 13, color: "#555", textAlign: "left" },
   company: { fontSize: 13, color: "#555", textAlign: "left" },
   tagline: { fontSize: 14, fontStyle: "italic", color: "#333", textAlign: "left" },
-  greeting: { fontSize: 15, fontWeight: "600", color: "#111", textAlign: "left" },
   encounterMeta: { fontSize: 12, color: "#777", textAlign: "left" },
   contactBlock: { gap: 2, marginTop: 4, alignItems: "flex-start" },
   contactLine: { fontSize: 12, color: "#333", textAlign: "left" },

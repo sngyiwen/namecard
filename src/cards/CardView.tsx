@@ -15,10 +15,10 @@ export function CardView({ card }: { card: CardData }) {
       )}
 
       <View style={styles.headerText}>
-        <Text style={styles.role}>
-          {"My Name is\n"}
-        </Text>
-        <Text style={styles.name}>{card.nameCard.name}</Text>
+        <View style={styles.nameGroup}>
+          <Text style={styles.role}>{"My Name is"}</Text>
+          <Text style={styles.name}>{card.nameCard.name}</Text>
+        </View>
         <Text style={styles.role}>{card.nameCard.role}</Text>
         {card.nameCard.company.length > 0 && (
           <Text style={styles.company}>{card.nameCard.company}</Text>
@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
   },
   selfie: { width: "100%", height: 180, borderRadius: 12 },
   headerText: { alignItems: "flex-start", gap: 4 },
-  logo: { width: 80, height: 30, marginTop: 6 },
+  nameGroup: { alignItems: "flex-start", gap: 0 },
+  logo: { width: 120, height: 45, marginTop: 6 },
   name: { fontSize: 18, fontWeight: "700", textAlign: "left" },
   role: { fontSize: 13, color: "#555", textAlign: "left" },
   company: { fontSize: 13, color: "#555", textAlign: "left" },

@@ -1,4 +1,4 @@
 export const QR_TARGET_URL = "https://www.jacksng.com";
 
-// TODO: swap in the real SUTD logo file — this is a placeholder asset.
-export const SUTD_LOGO = require("../../assets/sutd-logo.png");
+export const FORTY_TWO_LOGO = require("../../assets/42logo.png");
+export const SUTD_LOGO = require("../../assets/SUTD_Logo.png");

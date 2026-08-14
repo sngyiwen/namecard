@@ -1,5 +1,6 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import QRCode from "react-native-qrcode-svg";
+import { FORTY_TWO_LOGO, SUTD_LOGO } from "../nameCard/constants";
 import type { CardData } from "./cardData";
 
 export function CardView({ card }: { card: CardData }) {
@@ -13,12 +14,18 @@ export function CardView({ card }: { card: CardData }) {
         <Text style={styles.greeting}>Hello 👋🏼 {card.personName}</Text>
       )}
 
-      <View style={styles.headerText}>
-        <Text style={styles.name}>{card.nameCard.name}</Text>
-        <Text style={styles.role}>{card.nameCard.role}</Text>
-        {card.nameCard.company.length > 0 && (
-          <Text style={styles.company}>{card.nameCard.company}</Text>
-        )}
+      <View style={styles.header}>
+        <View style={styles.logoRow}>
+          <Image source={FORTY_TWO_LOGO} style={styles.logo} resizeMode="contain" />
+          <Image source={SUTD_LOGO} style={styles.logo} resizeMode="contain" />
+        </View>
+        <View style={styles.headerText}>
+          <Text style={styles.name}>{card.nameCard.name}</Text>
+          <Text style={styles.role}>{card.nameCard.role}</Text>
+          {card.nameCard.company.length > 0 && (
+            <Text style={styles.company}>{card.nameCard.company}</Text>
+          )}
+        </View>
       </View>
 
       <Text style={styles.tagline}>{card.nameCard.tagline}</Text>
@@ -58,6 +65,9 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   selfie: { width: "100%", height: 180, borderRadius: 12 },
+  header: { flexDirection: "row", alignItems: "center", gap: 10 },
+  logoRow: { flexDirection: "row", gap: 6 },
+  logo: { width: 32, height: 32 },
   headerText: { flex: 1 },
   name: { fontSize: 18, fontWeight: "700" },
   role: { fontSize: 13, color: "#555" },

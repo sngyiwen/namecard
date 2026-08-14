@@ -1,6 +1,5 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import QRCode from "react-native-qrcode-svg";
-import { SUTD_LOGO } from "../nameCard/constants";
 import type { CardData } from "./cardData";
 
 export function CardView({ card }: { card: CardData }) {
@@ -10,21 +9,19 @@ export function CardView({ card }: { card: CardData }) {
         <Image source={{ uri: card.selfieUri }} style={styles.selfie} />
       )}
 
-      <View style={styles.header}>
-        <Image source={SUTD_LOGO} style={styles.logo} resizeMode="contain" />
-        <View style={styles.headerText}>
-          <Text style={styles.name}>{card.nameCard.name}</Text>
-          <Text style={styles.role}>{card.nameCard.role}</Text>
-          {card.nameCard.company.length > 0 && (
-            <Text style={styles.company}>{card.nameCard.company}</Text>
-          )}
-        </View>
+      <View style={styles.headerText}>
+        <Text style={styles.name}>{card.nameCard.name}</Text>
+        <Text style={styles.role}>{card.nameCard.role}</Text>
+        {card.nameCard.company.length > 0 && (
+          <Text style={styles.company}>{card.nameCard.company}</Text>
+        )}
       </View>
 
       <Text style={styles.tagline}>{card.nameCard.tagline}</Text>
 
       {card.variant === "personalized" && (
         <Text style={styles.encounterMeta}>
+          {"We met at:\n"}
           {card.place} · {card.timestamp.toLocaleDateString()}
         </Text>
       )}
@@ -54,8 +51,6 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   selfie: { width: "100%", height: 180, borderRadius: 12 },
-  header: { flexDirection: "row", alignItems: "center", gap: 10 },
-  logo: { width: 32, height: 32 },
   headerText: { flex: 1 },
   name: { fontSize: 18, fontWeight: "700" },
   role: { fontSize: 13, color: "#555" },

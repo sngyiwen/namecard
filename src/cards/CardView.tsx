@@ -11,9 +11,7 @@ export function CardView({ card }: { card: CardData }) {
       )}
 
       {card.variant === "personalized" && (
-        <Text style={styles.greeting}>
-          {"Hello 👋🏼\n"}
-        </Text>
+        <Text style={styles.greeting}>{"Hello 👋🏼"}</Text>
       )}
 
       <View style={styles.headerText}>

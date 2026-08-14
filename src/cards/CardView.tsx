@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
   selfie: { width: "100%", height: 180, borderRadius: 12 },
   headerText: { alignItems: "flex-start", gap: 4 },
-  logo: { width: 140, height: 52, marginTop: 6 },
+  logo: { width: 180, height: 63, marginTop: 6 },
   name: { fontSize: 25, fontWeight: "700", textAlign: "left" },
   role: { fontSize: 13, color: "#555", textAlign: "left" },
   myNameIs: { fontSize: 13, color: "#555", textAlign: "left", marginBottom: -4 },

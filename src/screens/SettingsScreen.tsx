@@ -5,6 +5,7 @@ import {
   TextInput,
   Pressable,
   Image,
+  Alert,
   StyleSheet,
   ScrollView,
 } from "react-native";
@@ -56,8 +57,16 @@ export function SettingsScreen(_props: RootScreenProps<"Settings">) {
   );
 
   const handleSave = async () => {
-    await saveNameCard(db, fields);
-    setSavedAt(Date.now());
+    try {
+      await saveNameCard(db, fields);
+      setSavedAt(Date.now());
+    } catch (error) {
+      console.error("Failed to save NameCard", error);
+      Alert.alert(
+        "Couldn't save",
+        error instanceof Error ? error.message : String(error)
+      );
+    }
   };
 
   return (

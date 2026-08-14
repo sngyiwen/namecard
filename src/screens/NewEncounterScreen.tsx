@@ -6,6 +6,7 @@ import {
   TextInput,
   Pressable,
   Image,
+  Alert,
   StyleSheet,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
@@ -66,19 +67,28 @@ export function NewEncounterScreen({
 
   const handleSave = async () => {
     setSaving(true);
-    const [encounter, nameCard] = await Promise.all([
-      createEncounter(db, {
-        personName,
-        place,
-        timestamp,
-        consent,
-        selfieUri: consent ? selfieUri : null,
-      }),
-      getNameCard(db),
-    ]);
-    setSaving(false);
-    setSavedCard(deriveCardData(encounter, nameCard));
-    setStep("share");
+    try {
+      const [encounter, nameCard] = await Promise.all([
+        createEncounter(db, {
+          personName,
+          place,
+          timestamp,
+          consent,
+          selfieUri: consent ? selfieUri : null,
+        }),
+        getNameCard(db),
+      ]);
+      setSavedCard(deriveCardData(encounter, nameCard));
+      setStep("share");
+    } catch (error) {
+      console.error("Failed to save Encounter", error);
+      Alert.alert(
+        "Couldn't save",
+        error instanceof Error ? error.message : String(error)
+      );
+    } finally {
+      setSaving(false);
+    }
   };
 
   if (step === "consent") {

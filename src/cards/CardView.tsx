@@ -9,6 +9,10 @@ export function CardView({ card }: { card: CardData }) {
         <Image source={{ uri: card.selfieUri }} style={styles.selfie} />
       )}
 
+      {card.variant === "personalized" && (
+        <Text style={styles.greeting}>Hello 👋🏼 {card.personName}</Text>
+      )}
+
       <View style={styles.headerText}>
         <Text style={styles.name}>{card.nameCard.name}</Text>
         <Text style={styles.role}>{card.nameCard.role}</Text>
@@ -27,16 +31,19 @@ export function CardView({ card }: { card: CardData }) {
       )}
 
       <View style={styles.contactBlock}>
-        <Text style={styles.contactLine}>{card.nameCard.email}</Text>
+        <Text style={styles.contactLine}>
+          {"You can contact me at:\n"}
+          {card.nameCard.email}
+        </Text>
         <Text style={styles.contactLine}>{card.nameCard.phone}</Text>
         <Text style={styles.contactLine}>
           Telegram {card.nameCard.telegramHandle}
         </Text>
         <Text style={styles.contactLine}>X {card.nameCard.xHandle}</Text>
-      </View>
 
-      <View style={styles.qrRow}>
-        <QRCode value={card.qrTargetUrl} size={72} />
+        <View style={styles.qrRow}>
+          <QRCode value={card.qrTargetUrl} size={72} />
+        </View>
       </View>
     </View>
   );
@@ -56,8 +63,9 @@ const styles = StyleSheet.create({
   role: { fontSize: 13, color: "#555" },
   company: { fontSize: 13, color: "#555" },
   tagline: { fontSize: 14, fontStyle: "italic", color: "#333" },
+  greeting: { fontSize: 15, fontWeight: "600", color: "#111" },
   encounterMeta: { fontSize: 12, color: "#777" },
   contactBlock: { gap: 2, marginTop: 4 },
   contactLine: { fontSize: 12, color: "#333" },
-  qrRow: { alignItems: "center", marginTop: 8 },
+  qrRow: { alignItems: "flex-start", marginTop: 8 },
 });

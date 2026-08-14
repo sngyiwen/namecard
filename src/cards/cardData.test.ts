@@ -30,6 +30,7 @@ describe("deriveCardData", () => {
     expect(card.variant).toBe("personalized");
     if (card.variant !== "personalized") throw new Error("unreachable");
     expect(card.selfieUri).toBe("file:///selfie.jpg");
+    expect(card.personName).toBe("Priya");
     expect(card.place).toBe("SUTD, Singapore");
     expect(card.timestamp).toEqual(baseEncounter.timestamp);
     expect(card.nameCard.name).toBe("Jack Sng");

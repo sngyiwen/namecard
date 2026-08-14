@@ -7,6 +7,7 @@ export type CardData =
       nameCard: Omit<NameCard, "id">;
       qrTargetUrl: string;
       selfieUri: string;
+      personName: string;
       place: string;
       timestamp: Date;
     }
@@ -30,6 +31,7 @@ export function deriveCardData(
       nameCard: nameCardFields,
       qrTargetUrl: QR_TARGET_URL,
       selfieUri: encounter.selfieUri,
+      personName: encounter.personName,
       place: encounter.place,
       timestamp: encounter.timestamp,
     };

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "namecard",
-    "slug": "namecard",
+    "name": "Karto",
+    "slug": "karto",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -10,8 +10,9 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.jacksng.karto",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#111111",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
@@ -23,6 +24,12 @@
     },
     "plugins": [
       "expo-sqlite"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "8e2a9e12-280b-4970-9ab1-a2312c164c66"
+      }
+    },
+    "owner": "jacksng"
   }
 }

@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS name_card (
   email TEXT NOT NULL DEFAULT '',
   phone TEXT NOT NULL DEFAULT '',
   telegram_handle TEXT NOT NULL DEFAULT '',
-  x_handle TEXT NOT NULL DEFAULT ''
+  x_handle TEXT NOT NULL DEFAULT '',
+  qr_url TEXT NOT NULL DEFAULT ''
 );
 
 CREATE TABLE IF NOT EXISTS encounters (

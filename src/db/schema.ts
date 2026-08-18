@@ -10,6 +10,7 @@ export const nameCard = sqliteTable("name_card", {
   phone: text("phone").notNull().default(""),
   telegramHandle: text("telegram_handle").notNull().default(""),
   xHandle: text("x_handle").notNull().default(""),
+  qrUrl: text("qr_url").notNull().default(""),
 });
 
 export const encounters = sqliteTable("encounters", {

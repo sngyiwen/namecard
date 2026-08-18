@@ -1,5 +1,4 @@
 import type { Encounter, NameCard } from "../db/schema";
-import { QR_TARGET_URL } from "../nameCard/constants";
 
 export type CardData =
   | {
@@ -29,7 +28,7 @@ export function deriveCardData(
     return {
       variant: "personalized",
       nameCard: nameCardFields,
-      qrTargetUrl: QR_TARGET_URL,
+      qrTargetUrl: nameCard.qrUrl,
       selfieUri: encounter.selfieUri,
       personName: encounter.personName,
       place: encounter.place,
@@ -40,6 +39,6 @@ export function deriveCardData(
   return {
     variant: "generic",
     nameCard: nameCardFields,
-    qrTargetUrl: QR_TARGET_URL,
+    qrTargetUrl: nameCard.qrUrl,
   };
 }

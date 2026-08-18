@@ -13,7 +13,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import type { RootScreenProps } from "../navigation/RootNavigator";
 import { db } from "../db/client";
 import { getNameCard, saveNameCard, type NameCardFields } from "../db/repository";
-import { QR_TARGET_URL, SUTD_LOGO } from "../nameCard/constants";
+import { SUTD_LOGO } from "../nameCard/constants";
 
 const EMPTY_FIELDS: NameCardFields = {
   name: "",
@@ -24,6 +24,7 @@ const EMPTY_FIELDS: NameCardFields = {
   phone: "",
   telegramHandle: "",
   xHandle: "",
+  qrUrl: "",
 };
 
 const FIELD_LABELS: { key: keyof NameCardFields; label: string }[] = [
@@ -35,6 +36,7 @@ const FIELD_LABELS: { key: keyof NameCardFields; label: string }[] = [
   { key: "phone", label: "Phone" },
   { key: "telegramHandle", label: "Telegram handle" },
   { key: "xHandle", label: "X handle" },
+  { key: "qrUrl", label: "QR code link" },
 ];
 
 export function SettingsScreen(_props: RootScreenProps<"Settings">) {
@@ -75,7 +77,9 @@ export function SettingsScreen(_props: RootScreenProps<"Settings">) {
 
       <View style={styles.logoRow}>
         <Image source={SUTD_LOGO} style={styles.logo} resizeMode="contain" />
-        <Text style={styles.qrText}>QR links to: {QR_TARGET_URL}</Text>
+        <Text style={styles.qrText}>
+          QR links to: {fields.qrUrl || "(not set)"}
+        </Text>
       </View>
 
       {FIELD_LABELS.map(({ key, label }) => (

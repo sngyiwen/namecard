@@ -5,7 +5,7 @@ A mobile app (Expo Go) that replaces a physical name card. It generates a sharea
 ## Language
 
 **NameCard**:
-Your own static profile: name, role, tagline, email, phone number, Telegram handle, X handle, SUTD logo, and QR code (linking to jacksng.com). Singular — there is exactly one, editable via a settings screen (except the logo, which is a bundled static asset).
+Your own static profile: name, role, tagline, email, phone number, Telegram handle, X handle, SUTD logo, and QR code (linking to a URL of your choice). Singular — there is exactly one, editable via a settings screen (except the logo, which is a bundled static asset).
 _Avoid_: Card, profile
 
 **Encounter**:

@@ -19,19 +19,20 @@ describe("name_card repository", () => {
   it("persists edits and reloads them", async () => {
     const db = createTestDb();
     await saveNameCard(db, {
-      name: "Jack Sng",
+      name: "Jane Doe",
       role: "Student",
       company: "42 Singapore, SUTD",
       tagline: "Nice to meet you!",
-      email: "jack_sng@sutd.edu.sg",
-      phone: "+65 9645 9651",
-      telegramHandle: "@jacksng",
-      xHandle: "@jacksng",
+      email: "jane_doe@example.com",
+      phone: "+65 8123 4567",
+      telegramHandle: "@janedoe",
+      xHandle: "@janedoe",
+      qrUrl: "https://example.com",
     });
 
     const reloaded = await getNameCard(db);
-    expect(reloaded.name).toBe("Jack Sng");
-    expect(reloaded.telegramHandle).toBe("@jacksng");
+    expect(reloaded.name).toBe("Jane Doe");
+    expect(reloaded.telegramHandle).toBe("@janedoe");
   });
 });
 

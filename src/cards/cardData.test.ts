@@ -3,14 +3,15 @@ import type { Encounter, NameCard } from "../db/schema";
 
 const nameCard: NameCard = {
   id: 1,
-  name: "Jack Sng",
+  name: "Jane Doe",
   role: "Student",
   company: "42 Singapore, SUTD",
   tagline: "Nice to meet you!",
-  email: "jack_sng@sutd.edu.sg",
-  phone: "+65 9645 9651",
-  telegramHandle: "@jacksng",
-  xHandle: "@jacksng",
+  email: "jane_doe@example.com",
+  phone: "+65 8123 4567",
+  telegramHandle: "@janedoe",
+  xHandle: "@janedoe",
+  qrUrl: "https://example.com",
 };
 
 const baseEncounter: Encounter = {
@@ -33,8 +34,8 @@ describe("deriveCardData", () => {
     expect(card.personName).toBe("Priya");
     expect(card.place).toBe("SUTD, Singapore");
     expect(card.timestamp).toEqual(baseEncounter.timestamp);
-    expect(card.nameCard.name).toBe("Jack Sng");
-    expect(card.qrTargetUrl).toBe("https://www.jacksng.com");
+    expect(card.nameCard.name).toBe("Jane Doe");
+    expect(card.qrTargetUrl).toBe("https://example.com");
   });
 
   it("derives a generic card when consent is false", () => {
@@ -45,8 +46,8 @@ describe("deriveCardData", () => {
 
     expect(card.variant).toBe("generic");
     expect("selfieUri" in card).toBe(false);
-    expect(card.nameCard.name).toBe("Jack Sng");
-    expect(card.qrTargetUrl).toBe("https://www.jacksng.com");
+    expect(card.nameCard.name).toBe("Jane Doe");
+    expect(card.qrTargetUrl).toBe("https://example.com");
   });
 
   it("derives a generic card if consent is true but no selfie was stored", () => {

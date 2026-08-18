@@ -46,7 +46,9 @@ export function CardView({ card }: { card: CardData }) {
         <Text style={styles.contactLine}>X {card.nameCard.xHandle}</Text>
 
         <View style={styles.qrRow}>
-          <QRCode value={card.qrTargetUrl} size={72} />
+          {card.qrTargetUrl.trim().length > 0 && (
+            <QRCode value={card.qrTargetUrl} size={72} />
+          )}
           <Image
             source={SUTD_LOGO}
             style={styles.sutdLogo}

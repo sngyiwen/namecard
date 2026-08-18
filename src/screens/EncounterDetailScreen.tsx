@@ -79,6 +79,7 @@ export function EncounterDetailScreen({
           style: "destructive",
           onPress: async () => {
             await deleteEncounter(db, encounterId);
+            setEncounter(undefined);
             navigation.navigate("Home");
           },
         },
